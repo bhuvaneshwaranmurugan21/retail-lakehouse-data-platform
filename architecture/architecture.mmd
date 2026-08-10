@@ -1,0 +1,61 @@
+flowchart LR
+    subgraph source["1. Retail source systems"]
+        direction TB
+        events["Application events"]
+        cdc["Operational CDC"]
+        files["Batch files and APIs"]
+    end
+
+    subgraph ingest["2. Ingestion and durable landing"]
+        direction TB
+        kinesis["Amazon Kinesis"]
+        landing["Manifest-controlled S3 landing"]
+        bronze["Immutable S3 bronze"]
+    end
+
+    subgraph process["3. Contracted processing"]
+        direction TB
+        airflow["Airflow orchestration"]
+        glue["AWS Glue / PySpark"]
+        quality["Schema, quality, PII and deduplication"]
+        quarantine["Quarantine"]
+        cloudwatch["CloudWatch metrics and alarms"]
+    end
+
+    subgraph store["4. Governed lakehouse"]
+        direction TB
+        catalog["Glue Catalog and Lake Formation"]
+        silver["Apache Iceberg silver"]
+    end
+
+    subgraph serve["5. Analytics serving"]
+        direction TB
+        dbt["dbt transformations"]
+        redshift["Amazon Redshift marts"]
+        consumers["BI, analytics and ML"]
+    end
+
+    events --> kinesis
+    cdc --> landing
+    files --> landing
+    kinesis --> bronze
+    landing --> bronze
+    bronze --> glue
+    glue --> quality
+    airflow -. coordinates .-> glue
+    glue -. metrics .-> cloudwatch
+    quality -->|valid| silver
+    quality -->|invalid| quarantine
+    catalog -. governs .-> silver
+    silver --> dbt
+    dbt --> redshift
+    redshift --> consumers
+
+    classDef sourceNode fill:#30343b,stroke:#aeb6c2,color:#ffffff
+    classDef awsNode fill:#342b1f,stroke:#ff9900,color:#ffffff
+    classDef dataNode fill:#162c3d,stroke:#4aa3df,color:#ffffff
+    classDef controlNode fill:#25252b,stroke:#b89cff,color:#ffffff
+    class events,cdc,files sourceNode
+    class kinesis,landing,bronze,glue,quarantine,catalog,redshift,cloudwatch awsNode
+    class quality,silver,dbt,consumers dataNode
+    class airflow controlNode
