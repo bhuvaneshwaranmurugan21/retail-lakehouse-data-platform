@@ -11,5 +11,7 @@ select
     current_timestamp as refreshed_at
 from {{ ref('stg_orders') }}
 where order_status in ('PAID', 'FULFILLED', 'RETURNED')
+{% if is_incremental() %}
+  and order_date >= dateadd(day, -3, current_date)
+{% endif %}
 group by 1, 2, 3
-

@@ -1,6 +1,19 @@
 {{ config(unique_key='order_id', incremental_strategy='delete+insert') }}
 
-with captured_payments as (
+with changed_orders as (
+    select order_id from {{ ref('stg_orders') }}
+    {% if is_incremental() %} where processed_at >= dateadd(day, -3, current_timestamp) {% endif %}
+    union
+    select order_id from {{ ref('stg_payments') }}
+    {% if is_incremental() %} where processed_at >= dateadd(day, -3, current_timestamp) {% endif %}
+    union
+    select order_id from {{ ref('stg_shipments') }}
+    {% if is_incremental() %} where processed_at >= dateadd(day, -3, current_timestamp) {% endif %}
+    union
+    select order_id from {{ ref('stg_returns') }}
+    {% if is_incremental() %} where processed_at >= dateadd(day, -3, current_timestamp) {% endif %}
+),
+captured_payments as (
     select
         order_id,
         sum(case when payment_status = 'CAPTURED' then amount else 0 end) as captured_amount
@@ -40,7 +53,7 @@ select
     datediff(minute, orders.order_timestamp, shipments.delivered_at) as fulfillment_minutes,
     current_timestamp as refreshed_at
 from {{ ref('stg_orders') }} orders
+inner join changed_orders changed using (order_id)
 left join captured_payments payments using (order_id)
 left join latest_shipment shipments using (order_id)
 left join returns using (order_id)
-

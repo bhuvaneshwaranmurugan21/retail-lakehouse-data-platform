@@ -1,7 +1,6 @@
 resource "aws_cloudwatch_log_group" "glue" {
   name              = "/aws-glue/jobs/${local.name}"
   retention_in_days = 30
-  kms_key_id        = aws_kms_key.lakehouse.arn
 }
 
 resource "aws_glue_job" "bronze_to_silver" {
@@ -29,7 +28,7 @@ resource "aws_glue_job" "bronze_to_silver" {
     "--enable-observability-metrics"     = "true"
     "--enable-spark-ui"                  = "true"
     "--spark-event-logs-path"            = "s3://${aws_s3_bucket.data["artifacts"].id}/spark-logs/"
-    "--extra-py-files"                   = "s3://${aws_s3_bucket.data["artifacts"].id}/packages/retail_lakehouse-1.0.0-py3-none-any.whl"
+    "--extra-py-files"                   = "s3://${aws_s3_bucket.data["artifacts"].id}/packages/retail_lakehouse_data_platform-1.0.0-py3-none-any.whl"
     "--datalake-formats"                 = "iceberg"
     "--job-language"                     = "python"
     "--conf" = join(" ", [

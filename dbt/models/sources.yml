@@ -4,14 +4,14 @@ sources:
   - name: silver
     schema: silver
     loader: glue_iceberg
-    freshness:
-      warn_after: {count: 30, period: minute}
-      error_after: {count: 90, period: minute}
-    loaded_at_field: processed_at
+    config:
+      freshness:
+        warn_after: {count: 30, period: minute}
+        error_after: {count: 90, period: minute}
+      loaded_at_field: processed_at
     tables:
       - name: orders
       - name: payments
       - name: inventory_movements
       - name: shipments
       - name: returns
-

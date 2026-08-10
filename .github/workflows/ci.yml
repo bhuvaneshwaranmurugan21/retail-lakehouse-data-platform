@@ -16,6 +16,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DBT_SEND_ANONYMOUS_USAGE_STATS: "false"
 
     steps:
       - name: Checkout
@@ -34,7 +36,7 @@ jobs:
           java-version: "17"
 
       - name: Install dependencies
-        run: python -m pip install -e ".[spark,dev]"
+        run: python -m pip install -e ".[spark,analytics,dev]"
 
       - name: Lint Python
         run: python -m ruff check src spark_jobs scripts tests
@@ -42,6 +44,11 @@ jobs:
       - name: Validate source contracts
         run: python scripts/validate_contracts.py config/contracts
 
+      - name: Build deployable package
+        run: python -m build --wheel
+
+      - name: Parse dbt project
+        run: dbt parse --project-dir dbt --profiles-dir dbt/ci --no-partial-parse
+
       - name: Run unit and Spark integration tests
         run: python -m pytest --cov=retail_lakehouse --cov-report=term-missing
-

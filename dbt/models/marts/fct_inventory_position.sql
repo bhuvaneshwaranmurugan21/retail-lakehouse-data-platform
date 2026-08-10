@@ -8,5 +8,7 @@ select
     count(*) as movement_count,
     current_timestamp as refreshed_at
 from {{ ref('stg_inventory_movements') }}
+{% if is_incremental() %}
+where movement_date >= dateadd(day, -3, current_date)
+{% endif %}
 group by 1, 2, 3
-

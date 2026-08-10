@@ -1,6 +1,6 @@
 resource "aws_sns_topic" "data_platform_alerts" {
   name              = "${local.name}-alerts"
-  kms_master_key_id = aws_kms_key.lakehouse.id
+  kms_master_key_id = "alias/aws/sns"
 }
 
 resource "aws_sns_topic_subscription" "email" {
@@ -63,4 +63,3 @@ resource "aws_cloudwatch_metric_alarm" "quarantine_backlog" {
     QueueName = aws_sqs_queue.quarantine_events.name
   }
 }
-

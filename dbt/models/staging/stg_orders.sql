@@ -17,8 +17,3 @@ select
     ingested_at,
     processed_at
 from source
-
-{% if is_incremental() %}
-where processed_at > (select coalesce(max(processed_at), '1900-01-01') from {{ this }})
-{% endif %}
-
