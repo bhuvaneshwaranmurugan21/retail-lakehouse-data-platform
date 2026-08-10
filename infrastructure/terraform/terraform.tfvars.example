@@ -1,0 +1,6 @@
+aws_region          = "ap-south-1"
+environment         = "dev"
+kinesis_shard_count = 4
+glue_worker_count   = 10
+alert_email         = "data-platform-alerts@example.com"
+

@@ -58,7 +58,9 @@ with DAG(
                         "s3://{{ var.value.raw_bucket }}/bronze/"
                         f"dataset={dataset}/event_date={{{{ ds }}}}/"
                     ),
-                    "--target-table": f"glue_catalog.silver.{dataset}",
+                    "--target-table": (
+                        f"glue_catalog.{{{{ var.value.silver_database }}}}.{dataset}"
+                    ),
                     "--quarantine": (
                         "s3://{{ var.value.curated_bucket }}/quarantine/"
                         f"dataset={dataset}/"
@@ -78,4 +80,3 @@ with DAG(
     complete = EmptyOperator(task_id="complete")
 
     start >> wait_for_manifest >> bronze_to_silver >> publish_marts >> complete
-
