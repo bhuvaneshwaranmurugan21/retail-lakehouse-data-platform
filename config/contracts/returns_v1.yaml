@@ -1,0 +1,19 @@
+dataset: returns
+version: 1
+source_system: returns-service
+event_id: event_id
+event_time: event_time
+business_keys: [return_id]
+partition_by: [event_date]
+fields:
+  - {name: event_id, type: string, required: true}
+  - {name: event_time, type: timestamp, required: true}
+  - {name: ingested_at, type: timestamp, required: true}
+  - {name: return_id, type: string, required: true}
+  - {name: order_id, type: string, required: true}
+  - {name: sku, type: string, required: true}
+  - {name: return_status, type: string, required: true, allowed_values: [REQUESTED, APPROVED, RECEIVED, REJECTED, REFUNDED]}
+  - {name: reason_code, type: string, required: true}
+  - {name: quantity, type: integer, required: true, minimum: 1}
+  - {name: refund_amount, type: "decimal(18,2)", minimum: 0}
+

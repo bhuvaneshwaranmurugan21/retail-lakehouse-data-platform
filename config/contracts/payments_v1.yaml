@@ -1,0 +1,18 @@
+dataset: payments
+version: 1
+source_system: payment-service
+event_id: event_id
+event_time: event_time
+business_keys: [payment_id]
+partition_by: [event_date]
+fields:
+  - {name: event_id, type: string, required: true}
+  - {name: event_time, type: timestamp, required: true}
+  - {name: ingested_at, type: timestamp, required: true}
+  - {name: payment_id, type: string, required: true}
+  - {name: order_id, type: string, required: true}
+  - {name: payment_status, type: string, required: true, allowed_values: [AUTHORIZED, CAPTURED, FAILED, REFUNDED]}
+  - {name: payment_method, type: string, required: true, allowed_values: [CARD, UPI, WALLET, BANK_TRANSFER, COD]}
+  - {name: currency, type: string, required: true, allowed_values: [INR, USD, GBP, EUR]}
+  - {name: amount, type: "decimal(18,2)", required: true, minimum: 0}
+

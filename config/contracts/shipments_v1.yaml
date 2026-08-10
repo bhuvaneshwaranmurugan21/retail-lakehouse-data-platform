@@ -1,0 +1,18 @@
+dataset: shipments
+version: 1
+source_system: fulfillment-service
+event_id: event_id
+event_time: event_time
+business_keys: [shipment_id]
+partition_by: [event_date]
+fields:
+  - {name: event_id, type: string, required: true}
+  - {name: event_time, type: timestamp, required: true}
+  - {name: ingested_at, type: timestamp, required: true}
+  - {name: shipment_id, type: string, required: true}
+  - {name: order_id, type: string, required: true}
+  - {name: carrier, type: string, required: true}
+  - {name: shipment_status, type: string, required: true, allowed_values: [CREATED, DISPATCHED, IN_TRANSIT, DELIVERED, LOST]}
+  - {name: promised_date, type: date}
+  - {name: delivered_at, type: timestamp}
+

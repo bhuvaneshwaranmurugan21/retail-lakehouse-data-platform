@@ -1,0 +1,20 @@
+dataset: orders
+version: 1
+source_system: order-service
+event_id: event_id
+event_time: event_time
+business_keys: [order_id]
+partition_by: [event_date]
+fields:
+  - {name: event_id, type: string, required: true}
+  - {name: event_time, type: timestamp, required: true}
+  - {name: ingested_at, type: timestamp, required: true}
+  - {name: order_id, type: string, required: true}
+  - {name: customer_id, type: string, required: true}
+  - {name: customer_email, type: string, pii_action: sha256}
+  - {name: store_id, type: string, required: true}
+  - {name: order_status, type: string, required: true, allowed_values: [CREATED, PAID, FULFILLED, CANCELLED, RETURNED]}
+  - {name: currency, type: string, required: true, allowed_values: [INR, USD, GBP, EUR]}
+  - {name: gross_amount, type: "decimal(18,2)", required: true, minimum: 0}
+  - {name: discount_amount, type: "decimal(18,2)", required: true, minimum: 0}
+

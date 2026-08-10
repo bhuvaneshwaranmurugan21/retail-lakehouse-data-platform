@@ -1,0 +1,17 @@
+dataset: inventory_movements
+version: 1
+source_system: inventory-service
+event_id: event_id
+event_time: event_time
+business_keys: [movement_id]
+partition_by: [event_date]
+fields:
+  - {name: event_id, type: string, required: true}
+  - {name: event_time, type: timestamp, required: true}
+  - {name: ingested_at, type: timestamp, required: true}
+  - {name: movement_id, type: string, required: true}
+  - {name: sku, type: string, required: true}
+  - {name: location_id, type: string, required: true}
+  - {name: movement_type, type: string, required: true, allowed_values: [RECEIPT, SALE, RETURN, ADJUSTMENT, TRANSFER_IN, TRANSFER_OUT]}
+  - {name: quantity_delta, type: integer, required: true}
+
