@@ -26,7 +26,7 @@ contract and pipeline interfaces instead of creating separate ETL codebases.
 
 ## Architecture
 
-![Retail lakehouse architecture](architecture/architecture.svg)
+![OmniScale lakehouse architecture](architecture/omniscale-lakehouse-architecture.png)
 
 1. Kinesis accepts operational events while manifest-controlled files land in S3.
 2. Every payload is persisted to immutable bronze storage before business validation.
@@ -109,4 +109,3 @@ The sample batch produces this reconciliation result:
 
 All fixtures are synthetic. The repository contains no client data, credentials or
 proprietary source code.
-
