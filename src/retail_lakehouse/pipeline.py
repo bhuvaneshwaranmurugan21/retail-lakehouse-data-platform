@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from pyspark.sql import DataFrame, Window, functions as F
+from pyspark.sql import DataFrame, Window
+from pyspark.sql import functions as F
 
 from retail_lakehouse.contracts import DatasetContract
 from retail_lakehouse.quality import (

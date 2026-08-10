@@ -20,7 +20,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--contract", required=True)
     parser.add_argument("--input", required=True, help="Bronze JSON path")
     parser.add_argument("--quarantine", required=True, help="Quarantine output path")
-    parser.add_argument("--target-table", help="Iceberg table, for example glue_catalog.silver.orders")
+    parser.add_argument(
+        "--target-table",
+        help="Iceberg table, for example glue_catalog.silver.orders",
+    )
     parser.add_argument("--silver-path", help="Parquet output path for local execution")
     args = parser.parse_args()
     if bool(args.target_table) == bool(args.silver_path):
