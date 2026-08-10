@@ -1,0 +1,5 @@
+{"event_id":"evt-1001","event_time":"2026-08-10T08:00:00Z","ingested_at":"2026-08-10T08:00:02Z","order_id":"ord-501","customer_id":"cus-91","customer_email":"buyer@example.com","store_id":"BLR-01","order_status":"CREATED","currency":"INR","gross_amount":2499.00,"discount_amount":200.00}
+{"event_id":"evt-1002","event_time":"2026-08-10T08:01:00Z","ingested_at":"2026-08-10T08:01:02Z","order_id":"ord-502","customer_id":"cus-92","customer_email":"second@example.com","store_id":"BLR-02","order_status":"PAID","currency":"INR","gross_amount":3199.00,"discount_amount":0.00}
+{"event_id":"evt-1002","event_time":"2026-08-10T08:01:00Z","ingested_at":"2026-08-10T08:02:02Z","order_id":"ord-502","customer_id":"cus-92","customer_email":"second@example.com","store_id":"BLR-02","order_status":"FULFILLED","currency":"INR","gross_amount":3199.00,"discount_amount":0.00}
+{"event_id":"evt-1003","event_time":"2026-08-10T08:03:00Z","ingested_at":"2026-08-10T08:03:02Z","order_id":"ord-503","customer_id":"cus-93","customer_email":"third@example.com","store_id":"BLR-01","order_status":"UNKNOWN","currency":"INR","gross_amount":999.00,"discount_amount":0.00}
+
